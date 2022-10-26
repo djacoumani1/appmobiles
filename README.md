@@ -1,16 +1,2 @@
-# travail_1
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+CRUD IN HIGHSCORES
+Dans la page "HIGHSCORES", se trouve un liste de scores qui peuvent etre modifiés en swipant la donnée de la droite vers la gauche ou supprimés en swipant la donnée de la gauche vers la droite. Le code de cette page est visible dans la class HighScoresViewState. Pour la modification, je n'ai pas crée de page ni de textcontroller pour en remettre donc je l'ai codée en dur directement dans le code a la ligne 958 (await HighscoresDB.instance.update(Highscores(id:snapshot.data![index].id! ,date: "19-10-2022", name: "Souleymane", score: "99"));) Ensuite pour l'ajout, un bouton vous amene sur une nouvelle page dans laquelle vous pourrez ajouter la date, le nom et le score vu que l'id est généré automatiquement dans la bd. Il n'y a qu'une seule validation pour le "required".

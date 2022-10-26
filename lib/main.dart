@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:simple_ripple_animation/simple_ripple_animation.dart';
 import 'package:scale_button/scale_button.dart';
+import 'package:flutter/widgets.dart';
+import 'Model_Highscore.dart';
+import 'highscoresDB.dart';
+import 'package:flutter/services.dart';
 
-void main() => runApp(MyApp());
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -11,7 +19,6 @@ class MyApp extends StatefulWidget {
 }
 
 class MyHomePage extends State<MyApp> with TickerProviderStateMixin {
-
   @override
 
   Widget build(BuildContext context) {
@@ -336,6 +343,50 @@ class About extends StatelessWidget {
   }
 }
 
+class NewHighScore extends StatelessWidget {
+  const NewHighScore({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ScaleButton(
+      reverse: true,
+      bound: 0.1,
+      duration: Duration(microseconds: 5),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddHighScores()),//
+          );
+        },
+        borderRadius: BorderRadius.circular(30),
+        highlightColor: Colors.white,
+        splashColor: Colors.white,
+        child: Container(
+          height: 50.0,
+          width: 300,
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            border: Border.all(
+                width: 2,
+                color: Colors.greenAccent
+            ),
+            color: Colors.transparent,
+          ),
+          child: const Center(
+            child: Text('ADD NEW HIGHSCORE', style: TextStyle(
+              fontSize: 16,
+              color: Colors.greenAccent,
+            ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class Validate extends StatelessWidget {
 const Validate({super.key});
 
@@ -520,41 +571,41 @@ class ScoreValidatorPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                      SizedBox(
-                          width: 300,
-                          child: Column(
-                            children: [
-                              Image.asset('assets/validate.png', width: 100, height: 100,),
-                              Padding(padding: EdgeInsets.all(2)),
-                              Text('SCORE VALIDATOR',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Padding(padding: EdgeInsets.all(10)),
-                              Divider(
-                                height: 1,
-                                thickness: 0,
+                    SizedBox(
+                        width: 300,
+                        child: Column(
+                          children: [
+                            Image.asset('assets/validate.png', width: 100, height: 100,),
+                            Padding(padding: EdgeInsets.all(2)),
+                            Text('SCORE VALIDATOR',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
                                 color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
                               ),
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: SizedBox(
-                              width: 230,
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text('DATE: ',
-                                        style: TextStyle(
-                                        color: Colors.white,
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                      ),
-                                      Flexible(
+                            ),
+                            Padding(padding: EdgeInsets.all(10)),
+                            Divider(
+                              height: 1,
+                              thickness: 0,
+                              color: Colors.white,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: SizedBox(
+                                width: 230,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text('DATE: ',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                        Flexible(
                                           child: TextFormField(
                                             style: TextStyle(
                                               color: Color(0xff58d1ff),
@@ -571,93 +622,93 @@ class ScoreValidatorPage extends StatelessWidget {
                                               ),
                                               hintText: "     DD/MM/YYYY",
                                               hintStyle: TextStyle(
+                                                color: Color(0xff58d1ff),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('NAME:',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: TextFormField(
+                                            style: TextStyle(
+                                              color: Color(0xff58d1ff),
+                                            ),
+                                            decoration: const InputDecoration(
+                                              enabledBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  width: 0.5,
                                                   color: Color(0xff58d1ff),
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text('NAME:',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                            fontWeight: FontWeight.bold
-                                        ),
-                                      ),
-                                      Flexible(
-                                        child: TextFormField(
-                                          style: TextStyle(
-                                            color: Color(0xff58d1ff),
-                                          ),
-                                          decoration: const InputDecoration(
-                                            enabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                width: 0.5,
-                                                color: Color(0xff58d1ff),
+                                              focusedBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Color(0xff58d1ff)),
                                               ),
-                                            ),
-                                            focusedBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(color: Color(0xff58d1ff)),
-                                            ),
 
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text('SCORE:',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                            fontWeight: FontWeight.bold
-                                        ),
-                                      ),
-                                      Flexible(
-                                        child: TextFormField(
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('SCORE:',
                                           style: TextStyle(
-                                            color: Color(0xff58d1ff),
-                                          ),
-                                          decoration: const InputDecoration(
-                                            enabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                width: 0.5,
-                                                color: Color(0xff58d1ff),
-                                              ),
-                                            ),
-                                            focusedBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(color: Color(0xff58d1ff)),
-                                            ),
-
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(padding: EdgeInsets.all(20)),
-                                  Validate()
-                                ],
-                              ),
-                            ),
-                          ),
-                              Padding(padding: EdgeInsets.all(20)),
-                              Divider(
-                                height: 1,
-                                thickness: 0.6,
-                                color: Colors.white,
-                              ),
-                              Padding(padding: EdgeInsets.all(10)),
-                              Text('Score exist : ',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
+                                        Flexible(
+                                          child: TextFormField(
+                                            style: TextStyle(
+                                              color: Color(0xff58d1ff),
+                                            ),
+                                            decoration: const InputDecoration(
+                                              enabledBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  width: 0.5,
+                                                  color: Color(0xff58d1ff),
+                                                ),
+                                              ),
+                                              focusedBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Color(0xff58d1ff)),
+                                              ),
+
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(padding: EdgeInsets.all(20)),
+                                    Validate()
+                                  ],
                                 ),
                               ),
-                            ],
-                          )
-                      ),
+                            ),
+                            Padding(padding: EdgeInsets.all(20)),
+                            Divider(
+                              height: 1,
+                              thickness: 0.6,
+                              color: Colors.white,
+                            ),
+                            Padding(padding: EdgeInsets.all(10)),
+                            Text('Score exist : ',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )
+                    ),
 
                   ],
                 ),
@@ -793,7 +844,7 @@ class HighScoresPage extends StatelessWidget{
                 child: Stack(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(120, 40, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(120, 0, 0, 0),
                       child: Text('HIGHSCORES', style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
@@ -802,16 +853,21 @@ class HighScoresPage extends StatelessWidget{
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 90, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(8, 50, 0, 0),
                       child: SizedBox(
                         width: 380,
-                          height: 310,
+                          height: 330,
                           child: HighScoresView()),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(50, 420, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(50, 400, 0, 0),
+                      child: NewHighScore(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(50, 465, 0, 0),
                       child: BackToMenu(),
-                    )
+                    ),
+
                   ],
                 ),
               )
@@ -839,10 +895,6 @@ class HighScoresViewState extends State<HighScoresView> with SingleTickerProvide
     curve: Curves.fastOutSlowIn,
   );
   final key = GlobalKey<HighScoresViewState>();
-  List<String> date = <String>['28/09/2022 18:32:36', '28/09/2022 18:32:36', '28/09/2022 18:32:36', '28/09/2022 18:32:36', '28/09/2022 18:32:36','28/09/2022 18:32:36','28/09/2022 18:32:36','28/09/2022 18:32:36','28/09/2022 18:32:36','28/09/2022 18:32:36','28/09/2022 18:32:36'];
-  List<String> nom = <String>['PLAYER1', 'PLAYER1', 'PLAYER1', 'PLAYER1', 'PLAYER1','PLAYER1', 'PLAYER1', 'PLAYER1', 'PLAYER1', 'PLAYER1','PLAYER1'];
-  List<String> score = <String>['100','99','98','97','96','95','94','93','92','91','90'];
- Color couleur= Colors.transparent;
 
   @override
   void dispose() {
@@ -852,42 +904,344 @@ class HighScoresViewState extends State<HighScoresView> with SingleTickerProvide
 
   @override
   Widget build(BuildContext context) {
-    final List<bool> _selected = List.generate(date.length, (i) => false);
-    return AnimatedList(
-      key: key,
-        initialItemCount: date.length,
-        itemBuilder: (context, index, animation) {
-          return SizeTransition(
-            key: UniqueKey(),
-              sizeFactor: _animation,
-            child: Card(
-              elevation: 14,
-              margin: EdgeInsets.all(1.5),
-                    child: ListTile(
-                      hoverColor: Color(0xff58d1ff),
-                      selectedTileColor: Color(0xff58d1ff),
-                      onTap: () {
-                      },
-                      title: Text(nom[index],
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                        color: Colors.white,
-                      )
-                      ),
-                      leading: Text(date[index],
-                          style: TextStyle(
-                            color: Colors.white,
-                          )
-                      ),
-                      trailing: Text(score[index],
-                          style: TextStyle(
-                            color: Colors.white,
-                          )),
-                  ),
-                    color: getMyColor(index),
+
+    return Container(
+      child: Column(
+        children: [
+          Flexible(
+            child: FutureBuilder<List<Highscores>>(
+              future: HighscoresDB.instance.allHighscores(),
+              builder: (BuildContext context, AsyncSnapshot<List<Highscores>> snapshot) {
+                if (!snapshot.hasData) {
+                  return Center( child: CircularProgressIndicator());
+                }
+                return snapshot.data!.isEmpty
+                ? Center(child: Text("There is no data at this time. Please add more.", style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),)):
+                AnimatedList(
+                    key: key,
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    initialItemCount: snapshot.data!.length,
+                    itemBuilder: (context, index, animation) {
+                      Highscores high = snapshot.data![index];
+                      return SizeTransition(
+                        key: UniqueKey(),
+                        sizeFactor: _animation,
+                        child: Column(
+                          children: [
+                            Dismissible(
+                              //direction: DismissDirection.endToStart,
+                              background: Container(
+                                color: Colors.red,
+                                alignment: Alignment.centerRight,
+                                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                child: Icon(Icons.delete),
+                              ),
+                              secondaryBackground: Container(
+                                color: Colors.lightBlue,
+                                alignment: Alignment.centerRight,
+                                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                child: Icon(Icons.edit),
+                              ),
+                              key: ValueKey<int>(snapshot.data![index].id!),
+                              onDismissed: (direction) async {
+                                if (direction == DismissDirection.startToEnd){
+                                  await HighscoresDB.instance.delete(snapshot.data![index].id!);
+                                  snapshot.data!.remove(snapshot.data![index]);
+                                  setState(() {});
+                                }
+                                else if (direction == DismissDirection.endToStart){
+                                  await HighscoresDB.instance.update(Highscores(id:snapshot.data![index].id! ,date: "19-10-2022", name: "Souleymane", score: "99"));
+                                  setState(() {});
+                                }
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => HighScoresPage()),//
+                                );
+                              },
+                              child: Card(
+                                elevation: 14,
+                                margin: EdgeInsets.all(1.5),
+                                child: ListTile(
+                                  hoverColor: Color(0xff58d1ff),
+                                  selectedTileColor: Color(0xff58d1ff),
+                                  onTap: () {
+                                  },
+                                  title: Text(high.name,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      )
+                                  ),
+                                  leading: Text(high.date,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      )
+                                  ),
+                                  trailing: Text(high.score.toString(),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      )),
+                                ),
+                                color: getMyColor(index),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                );
+
+              }
             ),
-          );
-        });
+          ),
+        ],
+      ),
+
+    );
+  }
+}
+
+class AddHighScores extends StatefulWidget {
+  @override
+  AddHighScoresState createState() => AddHighScoresState();
+}
+
+class AddHighScoresState  extends State<AddHighScores>{
+  final date = TextEditingController();
+  final name = TextEditingController();
+  final score = TextEditingController();
+  bool _validateDate = false;
+  bool _validateName = false;
+  bool _validateScore = false;
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Color(0xff0b1d31),
+        body: SizedBox(
+          height: double.infinity,
+          width: double.infinity,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                repeat: ImageRepeat.repeat,
+                image: Svg(
+                    'assets/backgroundPattern.svg',
+                    size: Size(40, 40),
+                    color: Color(0xff0a243b)
+                ),
+              ),
+            ),
+            child: Container(
+              child: Center(
+                child: Column(
+                  children: [
+                    Padding(padding: EdgeInsets.all(30)),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HighScoresPage()),//
+                        );
+                      },
+                      child: Stack(
+                        children: [
+                          Align(
+                            alignment: Alignment(-1.4, 1),
+                          ),
+                          Image.asset('assets/backIcon.png', width: 60, height: 60,),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 52, 0, 0),
+                            child: Text('BACK',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color(0xff58d1ff),
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                        width: 300,
+                        child: Column(
+                          children: [
+                            Image.asset('assets/validate.png', width: 100, height: 100,),
+                            Padding(padding: EdgeInsets.all(2)),
+                            Text('SCORE VALIDATOR',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Padding(padding: EdgeInsets.all(10)),
+                            Divider(
+                              height: 1,
+                              thickness: 0,
+                              color: Colors.white,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: SizedBox(
+                                width: 230,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text('DATE: ',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: TextField(
+                                            controller: date,
+                                            style: TextStyle(
+                                              color: Color(0xff58d1ff),
+                                            ),
+                                            decoration: InputDecoration(
+                                              enabledBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  width: 0.5,
+                                                  color: Color(0xff58d1ff),
+                                                ),
+                                              ),
+                                              focusedBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Color(0xff58d1ff)),
+                                              ),
+                                              hintText: "     DD/MM/YYYY",
+                                              hintStyle: TextStyle(
+                                                color: Color(0xff58d1ff),
+                                              ),
+                                              errorText: _validateDate ? 'Date can\'t be empty' : null,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('NAME:',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: TextField(
+                                            controller: name,
+                                            style: TextStyle(
+                                              color: Color(0xff58d1ff),
+                                            ),
+                                            decoration:  InputDecoration(
+                                              enabledBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  width: 0.5,
+                                                  color: Color(0xff58d1ff),
+                                                ),
+                                              ),
+                                              focusedBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Color(0xff58d1ff)),
+                                              ),
+                                              errorText: _validateName ? 'Name can\'t be empty' : null,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('SCORE:',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: TextField(
+                                            controller: score,
+                                            keyboardType: TextInputType.number,
+                                            style: TextStyle(
+                                              color: Color(0xff58d1ff),
+                                            ),
+                                            decoration:  InputDecoration(
+                                              enabledBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  width: 0.5,
+                                                  color: Color(0xff58d1ff),
+                                                ),
+                                              ),
+                                              focusedBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Color(0xff58d1ff)),
+                                              ),
+                                              errorText: _validateScore ? 'Score can\'t be empty' : null,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                                      child: FloatingActionButton.extended(
+                                        icon: Icon(Icons.save,),
+                                        backgroundColor: Color(0xff58d1ff),
+                                        onPressed: () async{
+                                          if(!date.text.isEmpty && !name.text.isEmpty && !score.text.isEmpty){
+                                            await HighscoresDB.instance.insert(Highscores(date: date.text, name: name.text, score: score.text));
+                                            showAlertDialog(context);
+                                          }
+                                          setState(() {
+                                            if(date.text.isEmpty){
+                                              date.text.isEmpty ? _validateDate = true : _validateDate = false;
+                                            }
+                                            if(name.text.isEmpty){
+                                              name.text.isEmpty ? _validateName = true : _validateName = false;
+                                            }
+                                            if(score.text.isEmpty){
+                                              score.text.isEmpty ? _validateScore = true : _validateScore = false;
+                                            }
+                                            date.clear();
+                                            name.clear();
+                                            score.clear();
+
+                                          });
+                                        }, label: Text("ADD HIGHSCORE"), ),
+                                    )
+
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(padding: EdgeInsets.all(22)),
+                            Divider(
+                              height: 1,
+                              thickness: 0.3,
+                              color: Colors.white,
+                            ),
+
+                          ],
+                        )
+                    ),
+
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+
+    );
   }
 }
 
@@ -922,3 +1276,4 @@ showAlertDialog(BuildContext context) {
     },
   );
 }
+

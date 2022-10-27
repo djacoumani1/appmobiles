@@ -44,7 +44,7 @@ class HighscoresDB{
   Future<List<Highscores>> allHighscores() async {
 
     final db = await instance.database;
-    var highscores = await db.query('donnees');
+    var highscores = await db.query('donnees', orderBy: 'score DESC');
     List<Highscores> highscoresList = highscores.isNotEmpty
     ? highscores.map((c) => Highscores.fromMap(c)).toList()
     : [];
